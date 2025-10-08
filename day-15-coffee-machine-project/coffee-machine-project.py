@@ -37,31 +37,50 @@ resources = {
 machine_money_earned = 0
 
 # > 2. Functions -------------------------------------------------------------------------------------------------------
-# >> 2.1. User Change Function -----------------------------------------------------------------------------------------
-def user_change(item_cost):
-    print("Please insert coins!")
-    user_quarters = int(input("How many quarters?: "))
-    user_dimes = int(input("How many dimes?: "))
-    user_nickles = int(input("How many nickles?: "))
-    user_pennies = int(input("How many pennies?: "))
+# >> 2.1. User Can Pay Function ----------------------------------------------------------------------------------------
+def user_can_pay(item_cost):
+    print(f"Price: ${item_cost}, please insert coins!")
+    user_quarters = int(input("> How many quarters?: "))
+    user_dimes = int(input("> How many dimes?: "))
+    user_nickles = int(input("> How many nickles?: "))
+    user_pennies = int(input("> How many pennies?: "))
 
     user_total = (user_quarters * 0.25) + (user_dimes * 0.10) + (user_nickles * 0.05) + (user_pennies * 0.01)
 
     if user_total > item_cost:
         change_money = round(user_total - item_cost, 2)
-        return print(f"Here is ${change_money} in change.")
+        return True, f"Here is ${change_money} in change."
     else:
-        return print("Sorry, you don't have enough money.")
+        missing_money = round(item_cost - user_total, 2)
+        return False, f"Sorry, you don't have enough money. It's missing ${missing_money}"
 
-# >> 2.2. Can Make Item Function ---------------------------------------------------------------------------------------
-def can_make_item(item):
+# >> 2.2. Machine Can Make Function ------------------------------------------------------------------------------------
+def machine_can_make(item):
+    can_make = False
+    item_out_of_stock = ""
+
     for resource_key in resources:
-        for item_key in item["ingredients"]:
-            if item_key == resource_key:
-                if resources[resource_key] < item["ingredients"][resource_key]:
-                    print(f"Sorry, there is not enough {resources[resource_key]}!")
-                else:
-                    resources[resource_key] -= item["ingredients"][resource_key]
+        if resource_key in MENU[item]["ingredients"]:
+            if resources[resource_key] < MENU[item]["ingredients"][resource_key]:
+                item_out_of_stock = resource_key
+                break
+            else:
+                resources[resource_key] -= MENU[item]["ingredients"][resource_key]
+                can_make = True
+
+    if can_make:
+        return True, f"\nItem Chosen: {item}"
+    else:
+        return False, f"\nSorry, there is not enough {item_out_of_stock}!"
+
+# >> 2.3. Another Item Function ----------------------------------------------------------------------------------------
+def another_item():
+    another_choice = input("Would you like to purchase another item? (Y/N): ").upper()
+
+    if another_choice == "Y":
+        return True
+    else:
+        return False
 
 # > 3. Main Code -------------------------------------------------------------------------------------------------------
 
@@ -73,11 +92,19 @@ while machine_loop:
 
     for key in MENU.keys():
         if user_choice == key:
-            can_make_item(MENU[user_choice])
-            user_change(MENU[user_choice]["cost"])
-            print(f"Here is your {user_choice}. Enjoy!")
+            can_make_result = machine_can_make(user_choice)
+            can_pay_result = user_can_pay(MENU[user_choice]["cost"])
 
-            machine_money_earned = MENU[user_choice]["cost"]
+            if can_make_result[0]:
+                print(f"{can_make_result[1]}")
+                if can_pay_result[0]:
+                    print(can_pay_result[1])
+                    print(f"Here is your {user_choice}. Enjoy!")
+                    machine_money_earned = MENU[user_choice]["cost"]
+                else:
+                    print(can_pay_result[1])
+            else:
+                print(can_make_result[1])
 
     if user_choice == "report":
         print(">> Coffee Machine Report")

@@ -30,5 +30,11 @@ resources = {
     "coffee": 100,
 }
 
-for key, value in resources.items():
-    print(f"{key} {value}")
+def hello():
+    return True, "hello"
+
+func_hello = hello()
+print(hello()[0])
+
+if func_hello[0]:
+    print("hey")
