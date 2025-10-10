@@ -16,6 +16,6 @@ while quiz.still_has_question():
     quiz.next_question()
 
 print(f"You've completed the Quiz!")
-print(f"Your final score was: {quiz.score}/{quiz.question_number}.")
+print(f"Your final score was: {quiz.score}/{quiz.question_number}")
 
 # ----------------------------------------------------------------------------------------------------------------------
