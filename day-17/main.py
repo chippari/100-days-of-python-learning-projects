@@ -21,7 +21,7 @@ user_2 = User(102, "Isabela")
 print(user_1.id, user_1.username, user_1.followers)
 print(user_2.id, user_2.username , user_2.followers)
 
-# >> 1.2. Learning about Adding Methods to a Class ----------------------------------------------------------------------
+# >> 1.2. Learning about Adding Methods to a Class ---------------------------------------------------------------------
 
 user_1.follow(user_2)
 print(f"User_1 | Followers: {user_1.followers} | Following: {user_1.following}")
