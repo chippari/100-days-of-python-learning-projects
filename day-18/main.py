@@ -1,14 +1,21 @@
 # > Day 18 -------------------------------------------------------------------------------------------------------------
-# > 1. Creating Turtle Graphics ----------------------------------------------------------------------------------------
+# > 1. Turtle Graphics & GUI Project -----------------------------------------------------------------------------------
 
 from turtle import Turtle, Screen
 
 bob = Turtle()
 
-# Draw a Square
-for _ in range(4):
-    bob.forward(100)
-    bob.left(90)
+# >> 1.1. Draw a Square ------------------------------------------------------------------------------------------------
+# for _ in range(4):
+#     bob.forward(100)
+#     bob.left(90)
+
+# >> 1.2. Draw a Dashed Line -------------------------------------------------------------------------------------------
+for dashed_line in range(15):
+    bob.forward(10)
+    bob.penup()
+    bob.forward(10)
+    bob.pendown()
 
 screen = Screen()
 screen.exitonclick()
