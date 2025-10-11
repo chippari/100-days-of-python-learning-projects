@@ -19,24 +19,40 @@ bob = Turtle()
 
 # >> 1.3. Draw a Triangle, Square, Pentagon, Hexagon, Heptagon, Octagon, Nonagon and Decagon ---------------------------
 
+# draw_shapes = {"triangle": {"sides": 3, "color": "cyan"},
+#                "square": {"sides": 4, "color": "deepskyblue"},
+#                "pentagon": {"sides": 5, "color": "chartreuse"},
+#                "hexagon": {"sides": 6, "color": "yellow"},
+#                "heptagon": {"sides": 7, "color": "magenta"},
+#                "octagon": {"sides": 8, "color": "red"},
+#                "nonagon": {"sides": 9, "color": "violet"},
+#                "decagon": {"sides": 10, "color": "chocolate"}
+# }
+#
+# bob.hideturtle()
+#
+# for shape in draw_shapes:
+#     bob.pencolor(draw_shapes[shape]["color"])
+#     for line in range(draw_shapes[shape]["sides"]):
+#         bob.forward(100)
+#         bob.right(360 / draw_shapes[shape]["sides"])
 
-draw_shapes = {"triangle": {"sides": 3, "color": "cyan"},
-               "square": {"sides": 4, "color": "deepskyblue"},
-               "pentagon": {"sides": 5, "color": "chartreuse"},
-               "hexagon": {"sides": 6, "color": "yellow"},
-               "heptagon": {"sides": 7, "color": "magenta"},
-               "octagon": {"sides": 8, "color": "red"},
-               "nonagonon": {"sides": 9, "color": "violet"},
-               "decagonon": {"sides": 10, "color": "chocolate"}
-}
+# >> 1.4. Draw a Random Walk -------------------------------------------------------------------------------------------
+
+import random
+
+colors = ["cyan", "deepskyblue", "chartreuse", "yellow", "magenta", "red", "violet", "chocolate"]
+directions = [0, 90, 180, 270]
 
 bob.hideturtle()
+bob.pensize(12)
+bob.speed("fastest")
 
-for shape in draw_shapes:
-    bob.pencolor(draw_shapes[shape]["color"])
-    for line in range(draw_shapes[shape]["sides"]):
-        bob.forward(100)
-        bob.right(360 / draw_shapes[shape]["sides"])
+for walk in range(100):
+    bob.pencolor(random.choice(colors))
+    bob.forward(30)
+    bob.setheading(random.choice(directions))
+
 
 screen = Screen()
 screen.exitonclick()
