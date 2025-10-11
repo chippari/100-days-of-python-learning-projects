@@ -1,6 +1,8 @@
 # > Day 18 -------------------------------------------------------------------------------------------------------------
 # > 1. Turtle Graphics & GUI Project -----------------------------------------------------------------------------------
 
+import random
+import turtle
 from turtle import Turtle, Screen
 
 bob = Turtle()
@@ -39,9 +41,29 @@ bob = Turtle()
 
 # >> 1.4. Draw a Random Walk -------------------------------------------------------------------------------------------
 
-import random
+# colors = ["cyan", "deepskyblue", "chartreuse", "yellow", "magenta", "red", "violet", "chocolate"]
+# directions = [0, 90, 180, 270]
+#
+# bob.hideturtle()
+# bob.pensize(12)
+# bob.speed("fastest")
+#
+# for walk in range(100):
+#     bob.pencolor(random.choice(colors))
+#     bob.forward(30)
+#     bob.setheading(random.choice(directions))
 
-colors = ["cyan", "deepskyblue", "chartreuse", "yellow", "magenta", "red", "violet", "chocolate"]
+# >> 1.5. Python Tuples and Random RGB Colors --------------------------------------------------------------------------
+
+turtle.colormode(255)
+
+def random_color():
+    r = random.randint(0, 255)
+    g = random.randint(0, 255)
+    b = random.randint(0, 255)
+    generated_color = (r, g, b)
+    return generated_color
+
 directions = [0, 90, 180, 270]
 
 bob.hideturtle()
@@ -49,10 +71,9 @@ bob.pensize(12)
 bob.speed("fastest")
 
 for walk in range(100):
-    bob.pencolor(random.choice(colors))
+    bob.pencolor(random_color())
     bob.forward(30)
     bob.setheading(random.choice(directions))
-
 
 screen = Screen()
 screen.exitonclick()
