@@ -95,6 +95,7 @@ for i in range(int(turn_complete / angle)):
     bob.left(angle)
     bob.circle(100)
 
+# >> 1.7. Draw a Spirograph --------------------------------------------------------------------------------------------
 
 screen = Screen()
 screen.exitonclick()
