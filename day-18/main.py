@@ -55,6 +55,28 @@ bob = Turtle()
 
 # >> 1.5. Python Tuples and Random RGB Colors --------------------------------------------------------------------------
 
+# turtle.colormode(255)
+#
+# def random_color():
+#     r = random.randint(0, 255)
+#     g = random.randint(0, 255)
+#     b = random.randint(0, 255)
+#     generated_color = (r, g, b)
+#     return generated_color
+#
+# directions = [0, 90, 180, 270]
+#
+# bob.hideturtle()
+# bob.pensize(12)
+# bob.speed("fastest")
+#
+# for walk in range(100):
+#     bob.pencolor(random_color())
+#     bob.forward(30)
+#     bob.setheading(random.choice(directions))
+
+# >> 1.6. Draw a Spirograph --------------------------------------------------------------------------------------------
+
 turtle.colormode(255)
 
 def random_color():
@@ -64,16 +86,15 @@ def random_color():
     generated_color = (r, g, b)
     return generated_color
 
-directions = [0, 90, 180, 270]
-
-bob.hideturtle()
-bob.pensize(12)
 bob.speed("fastest")
+turn_complete = 360
+angle = 5
 
-for walk in range(100):
-    bob.pencolor(random_color())
-    bob.forward(30)
-    bob.setheading(random.choice(directions))
+for i in range(int(turn_complete / angle)):
+    bob.color(random_color())
+    bob.left(angle)
+    bob.circle(100)
+
 
 screen = Screen()
 screen.exitonclick()
