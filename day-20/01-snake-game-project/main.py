@@ -1,10 +1,11 @@
 # > Day 20 -------------------------------------------------------------------------------------------------------------
-# > 1. Turtle Race Project ---------------------------------------------------------------------------------------------
+# > 1. Main.py - Snake Game Project ---------------------------------------------------------------------------------------
 
-from turtle import Turtle, Screen
+from snake import Snake
+from turtle import Screen
 import time
 
-# Objects
+# Screen Object
 screen = Screen()
 
 # Screen Settings
@@ -13,35 +14,19 @@ screen.bgcolor("black")
 screen.title("My Snake Game")
 screen.tracer(0)
 
-# Snake Settings
-snake_body = []
-snake_length = 3
-segment_pos_x = 0
-set_pos_x = -20
+snake = Snake()
 
-for segment in range(snake_length):
-    # Create Snake Segments and Set Start Position for each.
-    new_segment = Turtle("square")
-    new_segment.color("white")
-    new_segment.penup()
-    new_segment.goto(x=segment_pos_x, y=0)
-
-    snake_body.append(new_segment)
-    segment_pos_x += set_pos_x
-
+screen.listen()
+screen.onkey(key="Up", fun=snake.up)
+screen.onkey(key="Down", fun=snake.down)
+screen.onkey(key="Left", fun=snake.left)
+screen.onkey(key="Right", fun=snake.right)
 
 game_is_on = True
 while game_is_on:
     screen.update()
     time.sleep(0.1)
-
-    for seg_num in range(len(snake_body) - 1, 0, -1):
-        new_x = snake_body[seg_num - 1].xcor()
-        new_y = snake_body[seg_num - 1].ycor()
-        snake_body[seg_num].goto(new_x, new_y)
-
-    snake_body[0].forward(20)
-
+    snake.move()
 
 # Screen Exit on Click
 screen.exitonclick()
