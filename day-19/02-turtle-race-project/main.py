@@ -9,7 +9,7 @@ screen = Screen()
 screen.setup(width=500, height=400)
 
 # User Input
-user_bet = screen.textinput(title="Make your bet", prompt="Which turtle will win the race? Enter a color: ")
+user_bet = screen.textinput(title="Make your bet", prompt="Which turtle will win the race? Enter a color: ").lower()
 colors = ["red", "blue", "green", "yellow", "orange", "purple", "pink"]
 
 turtles = []
@@ -35,7 +35,7 @@ while is_race_on:
         rand_distance = random.randint(0, 10)
         turtles[turtle].forward(rand_distance)
 
-        if turtles[turtle].position()[0] >= 250:
+        if turtles[turtle].xcor() >= 250:
             is_race_on = False
 
             if user_bet == colors[turtle]:
