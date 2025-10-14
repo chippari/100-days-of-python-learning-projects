@@ -1,29 +1,23 @@
 # > Day 22 -------------------------------------------------------------------------------------------------------------
-# > 1. Player Paddle - Pong Game Project -------------------------------------------------------------------------------
+# > 1. Player Paddle Module - Pong Game Project ------------------------------------------------------------------------
 
 from turtle import Turtle
 
-# Player Paddle Constant Variables.
-UP = 90
-DOWN = 270
-
 class PlayerPaddle(Turtle):
-    def __init__(self):
+    def __init__(self, pos_x):
         super().__init__()
-        self.penup()
         self.shape("square")
-        self.shapesize(stretch_wid=1, stretch_len=5)
-        self.left(90)
+        self.shapesize(stretch_wid=5, stretch_len=1)
         self.color("white")
-        self.goto(x=350, y=0)
-
-    def move(self):
-        self.forward(10)
+        self.penup()
+        self.goto(x=pos_x, y=0)
 
     def up(self):
-        self.setheading(UP)
+        new_y = self.ycor() + 20
+        self.goto(self.xcor(), new_y)
 
     def down(self):
-        self.setheading(DOWN)
+        new_y = self.ycor() - 20
+        self.goto(self.xcor(), new_y)
 
 # ----------------------------------------------------------------------------------------------------------------------

@@ -10,23 +10,27 @@ screen = Screen()
 screen.setup(width=800, height=600)
 screen.bgcolor("black")
 screen.title("Pong Game Project")
+
+# Screen Tracer to track animation.
 screen.tracer(0)
 
-# Player Paddle Setup.
-player_paddle = PlayerPaddle()
+# Player Paddle 1 & 2 Setup.
+player_paddle_1 = PlayerPaddle(pos_x=350)
+player_paddle_2 = PlayerPaddle(pos_x=-350)
 
-# Screen Listen & Keywords to move the Player Paddle.
+# Screen Listen.
 screen.listen()
-screen.onkey(key="Up", fun=player_paddle.up)
-screen.onkey(key="Down", fun=player_paddle.down)
+# Player Paddle 1 - Keywords to move UP and DOWN.
+screen.onkey(key="Up", fun=player_paddle_1.up)
+screen.onkey(key="Down", fun=player_paddle_1.down)
+# Player Paddle 2 - Keywords to move UP and DOWN.
+screen.onkey(key="w", fun=player_paddle_2.up)
+screen.onkey(key="s", fun=player_paddle_2.down)
 
 # Pong Game Loop
 game_is_on = True
 while game_is_on:
     screen.update()
-    time.sleep(0.05)
-    player_paddle.move()
-
 
 # Screen Exit on Click - It's need to stay at bottom of code.
 screen.exitonclick()
