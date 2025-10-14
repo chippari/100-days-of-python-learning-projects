@@ -5,6 +5,7 @@ import time
 from turtle import Screen
 from player_paddle import PlayerPaddle
 from ball import Ball
+from scoreboard import Scoreboard
 
 # Screen Setup.
 screen = Screen()
@@ -28,8 +29,11 @@ screen.onkey(key="Down", fun=player_paddle_1.down)
 screen.onkey(key="w", fun=player_paddle_2.up)
 screen.onkey(key="s", fun=player_paddle_2.down)
 
-# Pong Ball Setup.
+# Pong Ball Object.
 ball = Ball()
+
+# Score Board Object.
+scoreboard = Scoreboard()
 
 # Pong Game Loop
 game_is_on = True
@@ -51,12 +55,14 @@ while game_is_on:
         ball.bounce_x()
 
     # Detect When Player Paddle 1 Misses the Ball.
-    if ball.xcor() > 370:
+    if ball.xcor() > 380:
         ball.reset_position()
+        scoreboard.point_player_2()
 
     # Detect When Player Paddle 2 Misses the Ball.
-    if ball.xcor() < -370:
+    if ball.xcor() < -380:
         ball.reset_position()
+        scoreboard.point_player_1()
 
 
 # Screen Exit on Click - It's need to stay at bottom of code.
