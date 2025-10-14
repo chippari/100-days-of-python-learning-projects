@@ -53,6 +53,8 @@ while game_is_on:
     # Detect Collision with Player Paddle 1 & Player Paddle 2.
     if ball.distance(player_paddle_1) < 50 and ball.xcor() > 320 or ball.distance(player_paddle_2) < 50 and ball.xcor() < -320:
         ball.bounce_x()
+        # Make ball speed up each time when one of the player hit the ball.
+        ball.move_speed *= 1.10
 
     # Detect When Player Paddle 1 Misses the Ball.
     if ball.xcor() > 380:
