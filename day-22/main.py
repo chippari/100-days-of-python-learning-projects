@@ -4,6 +4,7 @@
 import time
 from turtle import Screen
 from player_paddle import PlayerPaddle
+from ball import Ball
 
 # Screen Setup.
 screen = Screen()
@@ -27,10 +28,15 @@ screen.onkey(key="Down", fun=player_paddle_1.down)
 screen.onkey(key="w", fun=player_paddle_2.up)
 screen.onkey(key="s", fun=player_paddle_2.down)
 
+# Pong Ball Setup.
+ball = Ball()
+
 # Pong Game Loop
 game_is_on = True
 while game_is_on:
+    time.sleep(0.05)
     screen.update()
+    ball.move()
 
 # Screen Exit on Click - It's need to stay at bottom of code.
 screen.exitonclick()
