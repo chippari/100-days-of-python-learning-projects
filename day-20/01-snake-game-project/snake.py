@@ -4,13 +4,9 @@
 from turtle import Turtle
 
 # Snake Constant Variables
-# Initial Snake Length.
-SNAKE_LENGTH = 3
-# Initial Snake Segment Position on X for the first one.
-SEGMENT_POS_X = 0
-# Additional Snake Position on X for the others.
-SET_SEG_POS_X = 20
-# Move Snake by Int Pixels. ATTENTION: SET_SEG_POS_X it's need to be equal to MOVE_DISTANCE for not act awkward.
+# Starting Positions for the three initial segments.
+STARTING_POSITIONS = [(0, 0), (-20, 0), (-40, 0)]
+# Move Snake by Int Pixels.
 MOVE_DISTANCE = 20
 
 # Snake Directions
@@ -23,21 +19,23 @@ class Snake:
     # Snake Settings
     def __init__(self):
         self.snake_body = []
-        self.segment_pos_x = SEGMENT_POS_X
-        self.set_seg_pos_x = SET_SEG_POS_X
         self.create_snake()
         self.head = self.snake_body[0]
 
     # Create Snake Segments Objects and Set Start Position for each
     def create_snake(self):
-        for segment in range(SNAKE_LENGTH):
-            new_segment = Turtle("square")
-            new_segment.color("white")
-            new_segment.penup()
-            new_segment.goto(x=self.segment_pos_x, y=0)
+        for position in STARTING_POSITIONS:
+            self.add_segment(position)
 
-            self.snake_body.append(new_segment)
-            self.segment_pos_x -= self.set_seg_pos_x
+    def add_segment(self, position):
+        new_segment = Turtle("square")
+        new_segment.color("white")
+        new_segment.penup()
+        new_segment.goto(position)
+        self.snake_body.append(new_segment)
+
+    def extend(self):
+        self.add_segment(self.snake_body[-1].position())
 
     # Move Snake Function
     def move(self):
