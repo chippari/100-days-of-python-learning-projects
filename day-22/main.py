@@ -34,13 +34,30 @@ ball = Ball()
 # Pong Game Loop
 game_is_on = True
 while game_is_on:
+    # Delay Time to screen update.
     time.sleep(0.05)
+    # Set Screen Update.
     screen.update()
+
+    # Ball Movement Setup.
     ball.move()
 
     # Detect Collision with Wall and Bounce.
     if ball.ycor() > 280 or ball.ycor() < -280:
-        ball.bounce()
+        ball.bounce_y()
+
+    # Detect Collision with Player Paddle 1 & Player Paddle 2.
+    if ball.distance(player_paddle_1) < 50 and ball.xcor() > 320 or ball.distance(player_paddle_2) < 50 and ball.xcor() < -320:
+        ball.bounce_x()
+
+    # Detect When Player Paddle 1 Misses the Ball.
+    if ball.xcor() > 370:
+        ball.reset_position()
+
+    # Detect When Player Paddle 2 Misses the Ball.
+    if ball.xcor() < -370:
+        ball.reset_position()
+
 
 # Screen Exit on Click - It's need to stay at bottom of code.
 screen.exitonclick()
