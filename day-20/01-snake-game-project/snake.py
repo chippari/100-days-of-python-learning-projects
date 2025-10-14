@@ -18,9 +18,9 @@ RIGHT = 0
 class Snake:
     # Snake Settings
     def __init__(self):
-        self.snake_body = []
+        self.segments = []
         self.create_snake()
-        self.head = self.snake_body[0]
+        self.head = self.segments[0]
 
     # Create Snake Segments Objects and Set Start Position for each
     def create_snake(self):
@@ -32,17 +32,17 @@ class Snake:
         new_segment.color("white")
         new_segment.penup()
         new_segment.goto(position)
-        self.snake_body.append(new_segment)
+        self.segments.append(new_segment)
 
     def extend(self):
-        self.add_segment(self.snake_body[-1].position())
+        self.add_segment(self.segments[-1].position())
 
     # Move Snake Function
     def move(self):
-        for seg_num in range(len(self.snake_body) - 1, 0, -1):
-            new_x = self.snake_body[seg_num - 1].xcor()
-            new_y = self.snake_body[seg_num - 1].ycor()
-            self.snake_body[seg_num].goto(new_x, new_y)
+        for seg_num in range(len(self.segments) - 1, 0, -1):
+            new_x = self.segments[seg_num - 1].xcor()
+            new_y = self.segments[seg_num - 1].ycor()
+            self.segments[seg_num].goto(new_x, new_y)
 
         self.head.forward(MOVE_DISTANCE)
 
