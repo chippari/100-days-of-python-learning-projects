@@ -3,6 +3,7 @@
 
 import time
 from turtle import Screen
+from player import Player
 
 # Screen Object.
 screen = Screen()
@@ -12,16 +13,29 @@ screen.setup(width=600, height=600)
 screen.bgcolor("white")
 screen.title("Capstone Game Project")
 
-# Screen Tracer to Animate it.
+# Screen Tracer to track animation.
 screen.tracer(0)
+
+# Player Object.
+player = Player()
+
+# Screen Listen.
+screen.listen()
+# Player Movement with Keywords.
+screen.onkey(key="Up", fun=player.move_up)
+screen.onkey(key="Down", fun=player.move_down)
+screen.onkey(key="Left", fun=player.move_left)
+screen.onkey(key="Right", fun=player.move_right)
 
 # Capstone Game Loop.
 game_is_on = True
 while game_is_on:
     # Set Time Delay to Screen Update.
-    time.sleep(0.1)
+    time.sleep(0.01)
     # Screen Update.
     screen.update()
+
+
 
 
 # Screen Exit on Click.
