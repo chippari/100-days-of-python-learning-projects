@@ -61,10 +61,11 @@ while game_is_on:
             scoreboard.game_over()
 
     # Detect when Player cross completely.
-    if player.ycor() > 280:
+    if player.ycor() > player.finish_line:
         scoreboard.increase_level()
         player.reset_position()
         car_manager.reset_cars()
+        car_manager.increase_speed()
 
 # Screen Exit on Click.
 screen.exitonclick()

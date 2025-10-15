@@ -7,7 +7,7 @@ from random import randint, choice
 COLORS = ["red", "orange", "yellow", "green", "blue", "purple"]
 
 STARTING_MOVE_DISTANCE = 5
-MOVE_INCREMENT = 20
+MOVE_INCREMENT = 5
 
 LIMIT_POS_X = 350
 LIMIT_POS_Y =  (-180, 220)
@@ -16,6 +16,7 @@ MIN_DIST = 90
 class CarManager:
     def __init__(self):
         self.cars = []
+        self.car_speed = STARTING_MOVE_DISTANCE
 
     def create_car(self):
         slow_down_creation = randint(1, 10)
@@ -31,7 +32,11 @@ class CarManager:
 
     def move_cars(self):
         for car in self.cars:
-            car.backward(STARTING_MOVE_DISTANCE)
+            car.backward(self.car_speed)
+
+    def increase_speed(self):
+        self.car_speed += MOVE_INCREMENT
+
 
     def reset_cars(self):
         for car in self.cars:

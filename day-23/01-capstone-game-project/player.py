@@ -20,6 +20,7 @@ class Player(Turtle):
         self.setheading(90)
         self.goto(STARTING_POSITION)
         self.move_distance = MOVE_DISTANCE
+        self.finish_line = FINISH_LINE_Y
 
     def move_up(self):
         self.setheading(90)
