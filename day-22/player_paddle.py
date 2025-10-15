@@ -3,6 +3,9 @@
 
 from turtle import Turtle
 
+SCREEN_LIMIT_Y_POSITIVE = 250
+SCREEN_LIMIT_Y_NEGATIVE = -250
+
 class PlayerPaddle(Turtle):
     def __init__(self, pos_x):
         super().__init__()
@@ -13,11 +16,13 @@ class PlayerPaddle(Turtle):
         self.goto(x=pos_x, y=0)
 
     def up(self):
-        new_y = self.ycor() + 20
-        self.goto(self.xcor(), new_y)
+        if self.ycor() < SCREEN_LIMIT_Y_POSITIVE:
+            new_y = self.ycor() + 50
+            self.goto(self.xcor(), new_y)
 
     def down(self):
-        new_y = self.ycor() - 20
-        self.goto(self.xcor(), new_y)
+        if self.ycor() > SCREEN_LIMIT_Y_NEGATIVE:
+            new_y = self.ycor() - 50
+            self.goto(self.xcor(), new_y)
 
 # ----------------------------------------------------------------------------------------------------------------------
