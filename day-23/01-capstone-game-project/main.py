@@ -54,9 +54,13 @@ while game_is_on:
     car_manager.create_car()
     car_manager.move_cars()
 
-    #
+    # Detect Collision with Car.
+    for car in car_manager.cars:
+        if car.distance(player) < 30:
+            game_is_on = False
+            scoreboard.game_over()
 
-    # If Player arrives at top, reset its position.
+    # Detect when Player cross completely.
     if player.ycor() > 280:
         scoreboard.increase_level()
         player.reset_position()
