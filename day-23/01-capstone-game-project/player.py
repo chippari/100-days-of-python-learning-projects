@@ -4,7 +4,7 @@
 from turtle import Turtle
 
 # Constant Player Variables.
-STARTING_POSITION = (0, -240)
+STARTING_POSITION = (0, -260)
 MOVE_DISTANCE = 20
 FINISH_LINE_Y = 280
 LIMIT_AREA_X = 260
@@ -13,7 +13,7 @@ LIMIT_AREA_Y = 260
 class Player(Turtle):
     def __init__(self):
         super().__init__()
-        self.shapesize(stretch_wid=1.5, stretch_len=1.5)
+        self.shapesize(stretch_wid=1.25, stretch_len=1.25)
         self.shape("turtle")
         self.color("chartreuse")
         self.penup()

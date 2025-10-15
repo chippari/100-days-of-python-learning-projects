@@ -4,7 +4,7 @@
 from turtle import Turtle
 
 DRAW_START_POS_X = 300
-DRAW_START_POS_Y = 210
+DRAW_START_POS_Y = 220
 DRAW_FINISH_POS_X = 300
 DRAW_FINISH_POS_Y = 260
 
@@ -12,7 +12,7 @@ class DrawLine(Turtle):
     def __init__(self):
         super().__init__()
         self.color("black")
-        self.pensize(2)
+        self.pensize(4)
         self.hideturtle()
         self.penup()
 

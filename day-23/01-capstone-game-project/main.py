@@ -25,6 +25,9 @@ draw_line = DrawLine()
 draw_line.start_line()
 draw_line.finish_line()
 
+# ScoreBoard Object.
+scoreboard = Scoreboard()
+
 # Player Object.
 player = Player()
 
@@ -36,23 +39,28 @@ screen.onkey(key="Down", fun=player.move_down)
 screen.onkey(key="Left", fun=player.move_left)
 screen.onkey(key="Right", fun=player.move_right)
 
-# ScoreBoard Object.
-scoreboard = Scoreboard()
-
-car = CarManager()
+# Car Object.
+car_manager = CarManager()
 
 # Capstone Game Loop.
 game_is_on = True
 while game_is_on:
     # Set Time Delay to Screen Update.
-    time.sleep(0.01)
+    time.sleep(0.05)
     # Screen Update.
     screen.update()
+
+    # Create Cars & Move them.
+    car_manager.create_car()
+    car_manager.move_cars()
+
+    #
 
     # If Player arrives at top, reset its position.
     if player.ycor() > 280:
         scoreboard.increase_level()
         player.reset_position()
+        car_manager.reset_cars()
 
 # Screen Exit on Click.
 screen.exitonclick()
