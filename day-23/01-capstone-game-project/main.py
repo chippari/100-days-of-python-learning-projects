@@ -5,6 +5,7 @@ import time
 from turtle import Screen
 from player import Player
 from scoreboard import Scoreboard
+from draw_line import DrawLine
 
 # Screen Object.
 screen = Screen()
@@ -16,6 +17,15 @@ screen.title("Capstone Game Project")
 
 # Screen Tracer to track animation.
 screen.tracer(0)
+
+# Draw Line Object.
+draw_line = DrawLine()
+# Draw Start Line & Finish Line (Just Visual).
+draw_line.start_line()
+draw_line.finish_line()
+
+
+
 
 # Player Object.
 player = Player()
