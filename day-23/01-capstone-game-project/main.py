@@ -4,6 +4,7 @@
 import time
 from turtle import Screen
 from player import Player
+from car_manager import CarManager
 from scoreboard import Scoreboard
 from draw_line import DrawLine
 
@@ -24,9 +25,6 @@ draw_line = DrawLine()
 draw_line.start_line()
 draw_line.finish_line()
 
-
-
-
 # Player Object.
 player = Player()
 
@@ -40,6 +38,8 @@ screen.onkey(key="Right", fun=player.move_right)
 
 # ScoreBoard Object.
 scoreboard = Scoreboard()
+
+car = CarManager()
 
 # Capstone Game Loop.
 game_is_on = True
