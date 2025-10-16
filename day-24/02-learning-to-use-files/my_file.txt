@@ -1,0 +1,3 @@
+Hello, My name is Fabio.
+I'm a Python developer and my favorite food is brownie!
+I'm writing this code while I'm watching Python Bootcamp of 100 days Course on Udemy.
