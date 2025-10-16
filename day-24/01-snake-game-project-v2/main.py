@@ -1,0 +1,62 @@
+# > Day 24 -------------------------------------------------------------------------------------------------------------
+# > 1. Main - Snake Game Project v2 ------------------------------------------------------------------------------------
+
+import time
+from turtle import Screen
+from snake import Snake
+from food import Food
+from scoreboard import ScoreBoard
+
+# Screen Object.
+screen = Screen()
+
+# Screen Settings.
+screen.setup(width=600, height=600)
+screen.bgcolor("black")
+screen.title("My Snake Game")
+screen.tracer(0)
+
+# Snake & Food Objects.
+snake = Snake()
+food = Food()
+score_board = ScoreBoard()
+
+# Screen Listen Keywords to move snake.
+screen.listen()
+screen.onkey(key="Up", fun=snake.up)
+screen.onkey(key="Down", fun=snake.down)
+screen.onkey(key="Left", fun=snake.left)
+screen.onkey(key="Right", fun=snake.right)
+
+# Snake Game Loop.
+game_is_on = True
+while game_is_on:
+    # Screen Update to happen the animation.
+    screen.update()
+    # Time to delay the snake animation.
+    time.sleep(0.075)
+    # Calling Move Method to move snake.
+    snake.move()
+
+    # Detect Collision with Food.
+    if snake.head.distance(food) < 15:
+        score_board.increase_score()
+        snake.extend()
+        food.refresh()
+
+    # Detect Collision with Wall.
+    if snake.head.xcor() > 280 or snake.head.xcor() < -280 or snake.head.ycor() < -280 or snake.head.ycor() > 280:
+        game_is_on = False
+        score_board.game_over()
+
+    # Detect Collision with Tail.
+    for segment in snake.segments[1:]:
+        if snake.head.distance(segment) < 10:
+            game_is_on = False
+            score_board.game_over()
+
+
+# Screen Exit on Click.
+screen.exitonclick()
+
+# ----------------------------------------------------------------------------------------------------------------------
