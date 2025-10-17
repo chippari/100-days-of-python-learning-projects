@@ -19,4 +19,27 @@
 
 # ----------------------------------------------------------------------------------------------------------------------
 
+# Get Letter Model from starting_latter.
+with open(file="input/letters/starting_letter.txt", mode="r") as starting_letter:
+    letter_model = starting_letter.read()
+
+# Get Invited List from invited_names.
+with open(file="input/names/invited_names.txt", mode="r") as invited_names:
+    unformatted_list_invited = invited_names.readlines()
+    invited_list = []
+
+    for name in unformatted_list_invited:
+        # 1. Formatted Name by removing space = "\n".
+        formatted_name = name.strip("\n")
+        # 2. Append formatted name in invited list.
+        invited_list.append(formatted_name)
+
+# Create Mails using letter model and invited list.
+for name in invited_list:
+    file_name = f"mail_to_{name}.txt"
+    letter = letter_model.replace("[name]", name)
+    with open(f"output/ready-to-send/{file_name}", mode="w") as mail:
+        mail.write(letter)
+
+
 # ----------------------------------------------------------------------------------------------------------------------
