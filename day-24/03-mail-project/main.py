@@ -41,5 +41,4 @@ for name in invited_list:
     with open(f"output/ready-to-send/{file_name}", mode="w") as mail:
         mail.write(letter)
 
-
 # ----------------------------------------------------------------------------------------------------------------------
