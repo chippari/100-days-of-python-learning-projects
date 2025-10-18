@@ -28,6 +28,14 @@
 
 # > [Exercise 3] Solution ----------------------------------------------------------------------------------------------
 
+with open("exercise_3_file_1.txt") as f1:
+    file_1_list = [line.strip() for line in f1 if line.strip()]
 
+with open("exercise_3_file_2.txt") as f2:
+    file_2_list = [line.strip() for line in f2 if line.strip()]
+
+result = [int(num) for num in file_1_list if num in file_2_list]
+
+print(result)
 
 # ----------------------------------------------------------------------------------------------------------------------
