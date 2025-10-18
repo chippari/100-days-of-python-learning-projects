@@ -8,26 +8,25 @@
 # > Created: 2025-10-17
 # ----------------------------------------------------------------------------------------------------------------------
 
-with open(file="weather_data.csv", mode="r") as data:
-    weather_data_csv = data.readlines()
+# > 1. Get Weather Data using CSV Library ------------------------------------------------------------------------------
 
-weather_data = []
+# import csv
+#
+# with open(file="weather_data.csv", mode="r") as data:
+#     weather_data = csv.reader(data)
+#     day_data = []
+#     temp_data = []
+#     condition_data = []
+#     for row in weather_data:
+#         if row[0] != "day":
+#             day_data.append(row[0])
+#         if row[1] != "temp":
+#             temp_data.append(int(row[1]))
+#         if row[2] != "condition":
+#             condition_data.append(row[2])
 
-for line in weather_data_csv:
-    stripped_line = line.strip("\n")
-    split_line = stripped_line.split(",")
-    weather_data.append(split_line)
+# > 2. Get Weather Data using Pandas Library ---------------------------------------------------------------------------
 
-weather_data.remove(weather_data[0])
-
-user_input = input("Enter a day of weather forecast: ").lower()
-for day_data in weather_data:
-    if user_input == day_data[0].lower():
-        day = day_data[0]
-        temperature = day_data[1]
-        condition = day_data[2]
-
-        print(f"{day} will be {temperature}ºC and {condition}.")
 
 
 # ----------------------------------------------------------------------------------------------------------------------
