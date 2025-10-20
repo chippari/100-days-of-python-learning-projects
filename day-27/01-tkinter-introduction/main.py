@@ -24,18 +24,26 @@ def main():
     window = Tk()
     window.title("My First GUI Program")
     window.minsize(width=500, height=300)
+    window.config(padx= 10, pady= 10)
+
+    # Window Grid Setup.
+    # Window Rows and Columns.
+    for i in range(3):
+        window.columnconfigure(i, weight=1)
+        window.rowconfigure(i, weight=1)
+
 
     # Label Setup.
     label = Label(text="I am a Label", font=("Times New Roman", 16, "bold"))
-    label.pack()
+    label.grid(row= 0, column= 1, sticky= "s")
 
     # Button Setup.
     button = Button(text="Click Me", command=lambda: button_clicked(label, entry))
-    button.pack()
+    button.grid(row= 1, column= 1, sticky= "")
 
     # Entry Setup.
     entry = Entry(width=25)
-    entry.pack()
+    entry.grid(row= 2, column= 1, sticky= "n")
 
     # Keep Window Showing on Screen. ATTENTION: It's need to be always on the end.
     window.mainloop()
