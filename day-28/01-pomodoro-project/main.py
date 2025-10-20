@@ -26,7 +26,53 @@ LONG_BREAK_MIN = 20
 # > Main ---------------------------------------------------------------------------------------------------------------
 
 def main():
-    pass
+    # > UI Setup -------------------------------------------------------------------------------------------------------
+    # Window Setup.
+    window = Tk()
+    window.title("Pomodoro")
+    window.minsize(width=500, height=500)
+    window.resizable(width=False, height=False)
+    window.config(padx=20, pady=20, bg=YELLOW)
+
+    # Window Grid Setup (Rows & Columns).
+    rows = 4
+    for i in range(rows):
+        window.grid_rowconfigure(i, weight=1)
+
+    columns = 3
+    for i in range(columns):
+        window.grid_columnconfigure(i, weight=1)
+
+    # Canvas Setup.
+    canvas = Canvas(width=200, height=224, bg=YELLOW, highlightthickness=0)
+    # Canvas Image Setup.
+    tomato_img = PhotoImage(file="tomato.png")
+    canvas.create_image(100, 112, image=tomato_img)
+    # Canvas Text Setup.
+    canvas.create_text(100, 130, text="00:00", fill="white", font=(FONT_NAME, 24, "bold"))
+    # Canvas Grid Position.
+    canvas.grid(row=1, column=1, pady=10)
+
+    # Timer Label Setup.
+    timer_label = Label(text="Timer", fg=GREEN, bg=YELLOW, font=(FONT_NAME, 32, "bold"))
+    # Timer Label Grid Position.
+    timer_label.grid(row=0, column=1, sticky="s", padx=20, pady=10)
+
+    # Checkmark Label Setup.
+    checkmark_label = Label(text="✔", fg=GREEN, bg=YELLOW, font=(FONT_NAME, 20, "bold"))
+    # Checkmark Label Grid Position.
+    checkmark_label.grid(row=3, column=1, sticky="n", padx=20, pady=10)
+
+    # Start Button Setup.
+    start_button = Button(text="Start", font=(FONT_NAME, 14, "bold"), width=10)
+    start_button.grid(row=2, column=0)
+
+    # Reset Button Setup.
+    reset_button = Button(text="Reset", font=(FONT_NAME, 14, "bold"), width=10)
+    reset_button.grid(row=2, column=2)
+
+    # Keep Window Showing on Screen.
+    window.mainloop()
 
 if __name__ == '__main__':
     main()
