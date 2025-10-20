@@ -7,21 +7,38 @@
 # > Author: Fabio Chippari
 # > Created: 2025-10-19
 # ----------------------------------------------------------------------------------------------------------------------
+# > Imports ------------------------------------------------------------------------------------------------------------
+from tkinter import *
 
-import tkinter
+# > Functions ----------------------------------------------------------------------------------------------------------
+def button_clicked(label, entry):
+    new_text = entry.get()
+    label.config(text=new_text)
 
-# Setup Window.
-window = tkinter.Tk()
-window.title("My First GUI Program")
-window.minsize(width=500, height=300)
+# > Main ---------------------------------------------------------------------------------------------------------------
 
-# Label Setup
-label = tkinter.Label(text="I am a Label", font=("Times New Roman", 16, "bold"))
-label.pack()
+def main():
+    # Setup Window.
+    window = Tk()
+    window.title("My First GUI Program")
+    window.minsize(width=500, height=300)
 
+    # Label Setup.
+    label = Label(text="I am a Label", font=("Times New Roman", 16, "bold"))
+    label.pack()
 
+    # Button Setup.
+    button = Button(text="Click Me", command=lambda: button_clicked(label, entry))
+    button.pack()
 
-# Keep Window Showing on Screen. ATTENTION: It's need to be always on the end.
-window.mainloop()
+    # Entry Setup.
+    entry = Entry(width=25)
+    entry.pack()
+
+    # Keep Window Showing on Screen. ATTENTION: It's need to be always on the end.
+    window.mainloop()
+
+if __name__ == '__main__':
+    main()
 
 # ----------------------------------------------------------------------------------------------------------------------
