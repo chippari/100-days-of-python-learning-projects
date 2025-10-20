@@ -24,7 +24,7 @@ def main():
     # Window Setup.
     window = Tk()
     window.title("Mile to Km Converter")
-    window.minsize(width=250, height=100)
+    window.minsize(width=300, height=100)
     window.config(padx=10, pady=10)
 
     # Window Grid Setup.
