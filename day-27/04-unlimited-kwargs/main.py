@@ -8,7 +8,14 @@
 # > Created: 2025-10-19
 # ----------------------------------------------------------------------------------------------------------------------
 
-# To create a Function with Unlimited Keywords Values, it needs to put the * symbol,
+# To create a Function with Unlimited Keywords Values, it needs to put two "**" symbols,
 # and it's best practice to write "kwargs".
+def calculate(n, **kwargs):
+    n += kwargs["add"]
+    n *= kwargs["multiply"]
+    return n
+
+result = calculate(2, add=3, multiply=5)
+print(result)
 
 # ----------------------------------------------------------------------------------------------------------------------
