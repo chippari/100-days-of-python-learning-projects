@@ -22,20 +22,43 @@ FONT_NAME = "Courier"
 WORK_MIN = 25
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
+reps = 0
 
 # > Functions ----------------------------------------------------------------------------------------------------------
 # Timer Mechanism Setup.
-def start_timer(window, canvas, timer_text):
-    count_down(window, canvas, timer_text, 5 * 60)
+def start_timer(window, canvas, timer_text, timer_label):
+    global reps
+    reps += 1
+    work_sec = WORK_MIN * 60
+    short_break_sec = SHORT_BREAK_MIN * 60
+    long_break_sec = LONG_BREAK_MIN * 60
+
+    # If it's the 1st/3rd/5th/7th rep:
+    if reps % 2 != 0:
+        timer_label.config(text="Work", fg=GREEN)
+        count_down(window, canvas, timer_text, timer_label, 10)
+    # If it's the 8th rep:
+    elif reps % 8 == 0:
+        timer_label.config(text="BREAK", fg=RED)
+        count_down(window, canvas, timer_text, timer_label, 5)
+    # If it's 2nd/4th/6th rep:
+    else:
+        timer_label.config(text="Break", fg=PINK)
+        count_down(window, canvas, timer_text, timer_label, 3)
 
 # # Countdown Mechanism Function.
-def count_down(window, canvas, timer_text, count):
+def count_down(window, canvas, timer_text, timer_label, count):
     count_min = math.floor(count / 60)
     count_sec = count % 60
 
+    if count_sec < 10:
+        count_sec = f"0{count_sec}"
+
     canvas.itemconfig(timer_text, text=f"{count_min}:{count_sec}")
     if count > 0:
-        window.after(1000, count_down, window, canvas, timer_text, count - 1)
+        window.after(1000, count_down, window, canvas, timer_text, timer_label, count - 1)
+    else:
+        start_timer(window, canvas, timer_text, timer_label)
 
 # > Main ---------------------------------------------------------------------------------------------------------------
 
@@ -78,7 +101,7 @@ def main():
     checkmark_label.grid(row=3, column=1, sticky="n", padx=20, pady=10)
 
     # Start Button Setup.
-    start_button = Button(text="Start", font=(FONT_NAME, 14, "bold"), width=10, command= lambda: start_timer(window, canvas, timer_text))
+    start_button = Button(text="Start", font=(FONT_NAME, 14, "bold"), width=10, command= lambda: start_timer(window, canvas, timer_text, timer_label))
     start_button.grid(row=2, column=0)
 
     # Reset Button Setup.
