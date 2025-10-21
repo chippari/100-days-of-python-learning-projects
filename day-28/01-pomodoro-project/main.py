@@ -10,6 +10,7 @@
 # > Imports ------------------------------------------------------------------------------------------------------------
 
 from tkinter import *
+import math
 
 # > Constants / Configuration ------------------------------------------------------------------------------------------
 
@@ -23,6 +24,19 @@ SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
 
 # > Functions ----------------------------------------------------------------------------------------------------------
+# Timer Mechanism Setup.
+def start_timer(window, canvas, timer_text):
+    count_down(window, canvas, timer_text, 5 * 60)
+
+# # Countdown Mechanism Function.
+def count_down(window, canvas, timer_text, count):
+    count_min = math.floor(count / 60)
+    count_sec = count % 60
+
+    canvas.itemconfig(timer_text, text=f"{count_min}:{count_sec}")
+    if count > 0:
+        window.after(1000, count_down, window, canvas, timer_text, count - 1)
+
 # > Main ---------------------------------------------------------------------------------------------------------------
 
 def main():
@@ -49,7 +63,7 @@ def main():
     tomato_img = PhotoImage(file="tomato.png")
     canvas.create_image(100, 112, image=tomato_img)
     # Canvas Text Setup.
-    canvas.create_text(100, 130, text="00:00", fill="white", font=(FONT_NAME, 24, "bold"))
+    timer_text = canvas.create_text(100, 130, text="00:00", fill="white", font=(FONT_NAME, 24, "bold"))
     # Canvas Grid Position.
     canvas.grid(row=1, column=1, pady=10)
 
@@ -64,7 +78,7 @@ def main():
     checkmark_label.grid(row=3, column=1, sticky="n", padx=20, pady=10)
 
     # Start Button Setup.
-    start_button = Button(text="Start", font=(FONT_NAME, 14, "bold"), width=10)
+    start_button = Button(text="Start", font=(FONT_NAME, 14, "bold"), width=10, command= lambda: start_timer(window, canvas, timer_text))
     start_button.grid(row=2, column=0)
 
     # Reset Button Setup.
