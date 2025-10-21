@@ -10,6 +10,7 @@
 # > Imports ------------------------------------------------------------------------------------------------------------
 
 from tkinter import *
+from typing import Optional
 import math
 
 # > Constants / Configuration ------------------------------------------------------------------------------------------
@@ -22,32 +23,63 @@ FONT_NAME = "Courier"
 WORK_MIN = 25
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
-reps = 0
+
+# > Global Variables ---------------------------------------------------------------------------------------------------
+
+window: Optional[Tk] = None
+canvas: Optional[Canvas] = None
+timer_label: Optional[Label] = None
+checkmark_label: Optional[Label] = None
+timer_text: Optional[int] = None
+
+reps: Optional[int] = 0
+timer: Optional[str] = None
 
 # > Functions ----------------------------------------------------------------------------------------------------------
-# Timer Mechanism Setup.
-def start_timer(window, canvas, timer_text, timer_label):
+# >> Timer Reset Setup -------------------------------------------------------------------------------------------------
+def reset_timer():
+    # Stop Window to Count Down.
+    window.after_cancel(timer)
+    # Reset Timer Text.
+    canvas.itemconfig(timer_text, text="00:00")
+    # Reset Timer Label.
+    timer_label.config(text="Timer")
+    # Reset Checkmark Label.
+    checkmark_label.config(text="")
+    # Reset Reps.
     global reps
+    reps = 0
+
+# >> Timer Mechanism Setup ---------------------------------------------------------------------------------------------
+def start_timer():
+    global reps
+
+    # Reset Reps When Achieves 8 times.
+    if reps == 8:
+        reps = 0
+
+    # Increase Reps by 1 every time.
     reps += 1
+
     work_sec = WORK_MIN * 60
     short_break_sec = SHORT_BREAK_MIN * 60
     long_break_sec = LONG_BREAK_MIN * 60
 
-    # If it's the 1st/3rd/5th/7th rep:
+    # [WORK] If it's the 1st/3rd/5th/7th rep:
     if reps % 2 != 0:
         timer_label.config(text="Work", fg=GREEN)
-        count_down(window, canvas, timer_text, timer_label, 10)
-    # If it's the 8th rep:
-    elif reps % 8 == 0:
+        count_down(work_sec)
+    # [LONG BREAK] If it's the 8th rep:
+    elif reps == 8:
         timer_label.config(text="BREAK", fg=RED)
-        count_down(window, canvas, timer_text, timer_label, 5)
-    # If it's 2nd/4th/6th rep:
+        count_down(long_break_sec)
+    # [SHORT BREAK] If it's 2nd/4th/6th rep:
     else:
         timer_label.config(text="Break", fg=PINK)
-        count_down(window, canvas, timer_text, timer_label, 3)
+        count_down(short_break_sec)
 
-# # Countdown Mechanism Function.
-def count_down(window, canvas, timer_text, timer_label, count):
+# >> Countdown Mechanism Function --------------------------------------------------------------------------------------
+def count_down(count):
     count_min = math.floor(count / 60)
     count_sec = count % 60
 
@@ -56,13 +88,22 @@ def count_down(window, canvas, timer_text, timer_label, count):
 
     canvas.itemconfig(timer_text, text=f"{count_min}:{count_sec}")
     if count > 0:
-        window.after(1000, count_down, window, canvas, timer_text, timer_label, count - 1)
+        global timer
+        timer = window.after(1000, count_down,count - 1)
     else:
-        start_timer(window, canvas, timer_text, timer_label)
+        start_timer()
+        marks = ""
+        work_sessions = math.floor(reps / 2)
+        for _ in range(work_sessions):
+            marks += "✔"
+        checkmark_label.config(text=marks)
 
 # > Main ---------------------------------------------------------------------------------------------------------------
 
 def main():
+    # Calling Global Variables -----------------------------------------------------------------------------------------
+    global window, canvas, timer_text, timer_label, checkmark_label
+
     # > UI Setup -------------------------------------------------------------------------------------------------------
     # Window Setup.
     window = Tk()
@@ -96,16 +137,16 @@ def main():
     timer_label.grid(row=0, column=1, sticky="s", padx=20, pady=10)
 
     # Checkmark Label Setup.
-    checkmark_label = Label(text="✔", fg=GREEN, bg=YELLOW, font=(FONT_NAME, 20, "bold"))
+    checkmark_label = Label( fg=GREEN, bg=YELLOW, font=(FONT_NAME, 20, "bold"))
     # Checkmark Label Grid Position.
     checkmark_label.grid(row=3, column=1, sticky="n", padx=20, pady=10)
 
     # Start Button Setup.
-    start_button = Button(text="Start", font=(FONT_NAME, 14, "bold"), width=10, command= lambda: start_timer(window, canvas, timer_text, timer_label))
+    start_button = Button(text="Start", font=(FONT_NAME, 14, "bold"), width=10, command=start_timer)
     start_button.grid(row=2, column=0)
 
     # Reset Button Setup.
-    reset_button = Button(text="Reset", font=(FONT_NAME, 14, "bold"), width=10)
+    reset_button = Button(text="Reset", font=(FONT_NAME, 14, "bold"), width=10, command=reset_timer)
     reset_button.grid(row=2, column=2)
 
     # Keep Window Showing on Screen.
