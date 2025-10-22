@@ -21,22 +21,34 @@ FONT_COLOR = "#000000"
 
 window: Optional[Tk] = None
 canvas: Optional[Canvas] = None
+website_entry: Optional[Entry] = None
+email_entry: Optional[Entry] = None
+password_entry: Optional[Entry] = None
 
 # > Functions ----------------------------------------------------------------------------------------------------------
 # >> Password Generator ------------------------------------------------------------------------------------------------
 # >> Save Password -----------------------------------------------------------------------------------------------------
+def save():
+    with open("data.txt", "a") as data_file:
+        data_file.write(f"{website_entry.get()} | {email_entry.get()} | {password_entry.get()} \n")
+
+    website_entry.delete(0, END)
+    email_entry.delete(0, END)
+    password_entry.delete(0, END)
+
 # > Main ---------------------------------------------------------------------------------------------------------------
 
 def main():
     # > Calling Global Variables ---------------------------------------------------------------------------------------
-    global window, canvas
+    global window, canvas, website_entry, email_entry, password_entry
+
     # > UI Setup -------------------------------------------------------------------------------------------------------
     # Window Setup.
     window = Tk()
     window.title("Password Manager")
     window.minsize(width=550, height=400)
     window.resizable(width=False, height=False)
-    window.config(padx=20, pady=20)
+    window.config(padx=40, pady=20)
 
     # Window Grip Setup (Rows & Columns).
     rows = 5
@@ -61,6 +73,7 @@ def main():
     # Website Entry Setup.
     website_entry = Entry(font=(FONT, 14, "normal"))
     website_entry.grid(row=1, column=1, columnspan=2, sticky="we", pady=10)
+    website_entry.focus()
 
     # Email / Username Label Setup.
     email_label = Label(text="Email / Username:", fg=FONT_COLOR, font=(FONT, 12, "normal"))
@@ -83,7 +96,7 @@ def main():
     generate_button.grid(row=3, column=2, sticky="we")
 
     # Save Password Button Setup.
-    save_button = Button(text="Save Password", fg=FONT_COLOR, font=(FONT, 10, "bold"))
+    save_button = Button(text="Save Password", fg=FONT_COLOR, font=(FONT, 10, "bold"), command=save)
     save_button.grid(row=4, column=1, columnspan=2, sticky="we")
 
 
