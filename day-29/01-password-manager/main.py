@@ -10,6 +10,7 @@
 # > Imports ------------------------------------------------------------------------------------------------------------
 
 from tkinter import *
+from tkinter import messagebox
 from typing import Optional
 
 # > Constants / Configuration ------------------------------------------------------------------------------------------
@@ -29,12 +30,24 @@ password_entry: Optional[Entry] = None
 # >> Password Generator ------------------------------------------------------------------------------------------------
 # >> Save Password -----------------------------------------------------------------------------------------------------
 def save():
-    with open("data.txt", "a") as data_file:
-        data_file.write(f"{website_entry.get()} | {email_entry.get()} | {password_entry.get()} \n")
+    website = website_entry.get()
+    email = email_entry.get()
+    password = password_entry.get()
 
-    website_entry.delete(0, END)
-    email_entry.delete(0, END)
-    password_entry.delete(0, END)
+    if len(website) == 0 or len(email) == 0 or len(password) == 0:
+        messagebox.showinfo(title="Error", message="Please fill all the fields!")
+    else:
+        is_ok = messagebox.askokcancel(title="Save File", message=f"These are the correct details to save? "
+                                                                  f"\nWebsite: {website} \nEmail: {email} "
+                                                                  f"\nPassword: {password}\n")
+
+        if is_ok:
+            with open("data.txt", "a") as data_file:
+                data_file.write(f"{website} | {email} | {password} \n")
+
+            website_entry.delete(0, END)
+            email_entry.delete(0, END)
+            password_entry.delete(0, END)
 
 # > Main ---------------------------------------------------------------------------------------------------------------
 
