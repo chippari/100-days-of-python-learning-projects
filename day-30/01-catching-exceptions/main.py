@@ -45,4 +45,18 @@ else:
 finally:
     print("Execution of the try-except block is complete.")
 
+# > Raising Exceptions -------------------------------------------------------------------------------------------------
+
+# >> "raise": is used to explicitly trigger an exception, such as ValueError, TypeError, NameError, etc.
+
+height = float(input("(Centimeters) Height: "))
+weight = float(input("(Kilograms) Weight: "))
+
+if height > 240:
+    raise ValueError("Human Height should not be over 240 centimeters.")
+
+bmi = round(weight / (height / 100) ** 2, 1)
+print(bmi)
+
+
 # ----------------------------------------------------------------------------------------------------------------------
