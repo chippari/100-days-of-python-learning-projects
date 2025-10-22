@@ -9,6 +9,7 @@
 # ----------------------------------------------------------------------------------------------------------------------
 # > Imports ------------------------------------------------------------------------------------------------------------
 
+import json
 import pyperclip
 from tkinter import *
 from tkinter import messagebox
@@ -58,15 +59,34 @@ def save():
     email = email_entry.get()
     password = password_entry.get()
 
+    new_data = {
+        website: {
+            "email": email,
+            "password": password,
+        }
+    }
+
     if len(website) == 0 or len(email) == 0 or len(password) == 0:
         messagebox.showinfo(title="Error", message="Please fill all the fields!")
     else:
-        with open("data.txt", "a") as data_file:
-            data_file.write(f"{website} | {email} | {password} \n")
+        try:
+            with open("data.json", "r") as data_file:
+                # Reading Old Data.
+                data = json.load(data_file)
+        except FileNotFoundError:
+            with open("data.json", "w") as data_file:
+                json.dump(new_data, data_file, indent=4)
+        else:
+            # Updating Old Data with New Data.
+            data.update(new_data)
 
-        website_entry.delete(0, END)
-        email_entry.delete(0, END)
-        password_entry.delete(0, END)
+            with open("data.json", "w") as data_file:
+                # Saving Updated Data.
+                json.dump(data, data_file, indent=4)
+        finally:
+            website_entry.delete(0, END)
+            email_entry.delete(0, END)
+            password_entry.delete(0, END)
 
 # > Main ---------------------------------------------------------------------------------------------------------------
 
