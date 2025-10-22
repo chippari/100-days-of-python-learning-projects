@@ -9,9 +9,11 @@
 # ----------------------------------------------------------------------------------------------------------------------
 # > Imports ------------------------------------------------------------------------------------------------------------
 
+import pyperclip
 from tkinter import *
 from tkinter import messagebox
 from typing import Optional
+from random import randint, choice, shuffle
 
 # > Constants / Configuration ------------------------------------------------------------------------------------------
 
@@ -28,6 +30,28 @@ password_entry: Optional[Entry] = None
 
 # > Functions ----------------------------------------------------------------------------------------------------------
 # >> Password Generator ------------------------------------------------------------------------------------------------
+def generate_password():
+    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
+               'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+               'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
+
+    password_letters = [choice(letters) for _ in range(randint(8, 10))]
+    password_symbols = [choice(symbols) for _ in range(randint(2, 4))]
+    password_numbers = [choice(numbers) for _ in range(randint(2, 4))]
+
+    password_list = password_letters + password_symbols + password_numbers
+    shuffle(password_list)
+
+    password = "".join(password_list)
+
+    password_entry.delete(0, END)
+    password_entry.insert(0, password)
+
+    messagebox.showinfo(title="Message" ,message="Password Generated and Copied in to clipboard.")
+    pyperclip.copy(password)
+
 # >> Save Password -----------------------------------------------------------------------------------------------------
 def save():
     website = website_entry.get()
@@ -105,7 +129,7 @@ def main():
     password_entry.grid(row=3, column=1, sticky="we", pady=10)
 
     # Generate Password Button Setup.
-    generate_button = Button(text="Generate", fg=FONT_COLOR, font=(FONT, 10, "bold"))
+    generate_button = Button(text="Generate", fg=FONT_COLOR, font=(FONT, 10, "bold"), command=generate_password)
     generate_button.grid(row=3, column=2, sticky="we")
 
     # Save Password Button Setup.
