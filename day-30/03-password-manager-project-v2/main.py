@@ -88,6 +88,22 @@ def save():
             email_entry.delete(0, END)
             password_entry.delete(0, END)
 
+# >> Find Password -----------------------------------------------------------------------------------------------------
+def find_password():
+    website = website_entry.get()
+
+    try:
+        with open("data.json", "r") as data_file:
+            data = json.load(data_file)
+            email = data[website]["email"]
+            password = data[website]["password"]
+
+            messagebox.showinfo(title=f"{website} Account", message=f"Email: {email}\nPassword: {password}")
+    except KeyError:
+        messagebox.showinfo(title="Error", message="No Details for the website exists.")
+    except FileNotFoundError:
+        messagebox.showinfo(title="Error", message="No Data File Found.")
+
 # > Main ---------------------------------------------------------------------------------------------------------------
 
 def main():
@@ -124,7 +140,7 @@ def main():
 
     # Website Entry Setup.
     website_entry = Entry(font=(FONT, 14, "normal"))
-    website_entry.grid(row=1, column=1, columnspan=2, sticky="we", pady=10)
+    website_entry.grid(row=1, column=1, sticky="we", pady=10)
     website_entry.focus()
 
     # Email / Username Label Setup.
@@ -151,6 +167,9 @@ def main():
     save_button = Button(text="Save Password", fg=FONT_COLOR, font=(FONT, 10, "bold"), command=save)
     save_button.grid(row=4, column=1, columnspan=2, sticky="we")
 
+    # Search Button Setup.
+    search_button = Button(text="Search", fg=FONT_COLOR, font=(FONT, 10, "bold"), command=find_password)
+    search_button.grid(row=1, column=2, sticky="we")
 
     # Keep Window Showing on Screen.
     window.mainloop()
