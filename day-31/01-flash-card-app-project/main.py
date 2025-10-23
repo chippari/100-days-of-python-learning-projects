@@ -23,10 +23,17 @@ NATIVE_LANG = "English"
 
 # > Global Variables ---------------------------------------------------------------------------------------------------
 
+current_card = {}
+
 window: Optional[Tk] = None
 canvas: Optional[Canvas] = None
+
+card_image: Optional[str] = None
 card_language: Optional[str] = None
 card_word: Optional[str] = None
+front_card_img: Optional[str] = None
+back_card_img: Optional[str] = None
+flip_timer: Optional[str] = None
 
 # > Functions ----------------------------------------------------------------------------------------------------------
 # >> Generate Random Word ----------------------------------------------------------------------------------------------
@@ -35,19 +42,43 @@ def next_card():
     data = pandas.read_csv("data/portuguese_words.csv")
     words_dict = data.to_dict(orient="records")
 
-    # Get a random word on the two languages and save word in language to Learn.
-    word_chosen = random.choice(words_dict)
-    word_to_learn = word_chosen[LEARN_LANG]
+    # Get a random word on the two languages and save learning word in a variable.
+    global current_card
+    current_card = random.choice(words_dict)
+    learning_word = current_card[LEARN_LANG]
 
-    # Change Card Language and Card Word Text.
-    canvas.itemconfig(card_language, text=LEARN_LANG)
-    canvas.itemconfig(card_word, text=word_to_learn)
+    # Change Card Language and Card Word Text to Learning Language.
+    canvas.itemconfig(card_language, text=LEARN_LANG, fill="black")
+    canvas.itemconfig(card_word, text=learning_word, fill="black")
+
+    # Set Front Card Image.
+    canvas.itemconfig(card_image, image=front_card_img)
+
+    # Reset Timer to Flip Card Before.
+    global flip_timer
+    window.after_cancel(flip_timer)
+
+    # Flip Card after a certain delay and show native word and language.
+    flip_timer = window.after(3000, flip_card)
+
+# >> Show Word in Native Language --------------------------------------------------------------------------------------
+def flip_card():
+    # Get a native word from current card.
+    global current_card
+    native_word = current_card[NATIVE_LANG]
+
+    # Change Card Language and Card Word Text to Native Language.
+    canvas.itemconfig(card_language, text=NATIVE_LANG, fill="white")
+    canvas.itemconfig(card_word, text=native_word, fill="white")
+
+    # Set Back Card Image.
+    canvas.itemconfig(card_image, image=back_card_img)
 
 # > Main ---------------------------------------------------------------------------------------------------------------
 
 def main():
     # > Calling Global Variables ---------------------------------------------------------------------------------------
-    global window, canvas, card_language, card_word
+    global window, canvas, card_image, card_language, card_word, front_card_img, back_card_img, flip_timer
 
     # > UI Setup -------------------------------------------------------------------------------------------------------
 
@@ -63,11 +94,16 @@ def main():
         window.rowconfigure(i, weight=1)
         window.columnconfigure(i, weight=1)
 
+    # Flip Card after a certain delay and show native word and language.
+    flip_timer = window.after(3000, flip_card)
+
     # Canvas Setup.
     canvas = Canvas(width=800, height=530, bg=BACKGROUND_COLOR, highlightthickness=0)
-    # Canvas Front Card Setup.
+    # Front & Back Card Image Setup.
     front_card_img = PhotoImage(file="images/card_front.png")
-    canvas.create_image(400, 265, image=front_card_img)
+    back_card_img = PhotoImage(file="images/card_back.png")
+    # Card Image Canvas Setup.
+    card_image = canvas.create_image(400, 265)
     # Card Language Canvas Text Setup.
     card_language = canvas.create_text(400, 150, text="", font=(FONT, 40, "italic"))
     # Word Card Canvas Text Setup.
