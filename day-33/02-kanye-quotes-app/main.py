@@ -11,17 +11,31 @@
 
 import requests
 from tkinter import *
+from typing import Optional
+
+# > Global Variables ---------------------------------------------------------------------------------------------------
+
+canvas: Optional[Canvas] = None
+quote_text: Optional[str] = None
 
 # > Functions ----------------------------------------------------------------------------------------------------------
 
 def get_quote():
-    pass
-    # Write your code here.
+    # Get Response from API Endpoint.
+    response = requests.get(url="https://api.kanye.rest")
+    # Get Data from API Response.
+    data = response.json()
+    kanye_quote = data["quote"]
+    # Change Quote Text on Canvas.
+    canvas.itemconfig(quote_text, text=kanye_quote)
 
 # > Main ---------------------------------------------------------------------------------------------------------------
 
 def main():
+    # > Calling Global Variables ---------------------------------------------------------------------------------------
+    global canvas, quote_text
 
+    # > UI Setup -------------------------------------------------------------------------------------------------------
     # Window Setup.
     window = Tk()
     window.title("Kanye Says...")
@@ -32,7 +46,7 @@ def main():
     canvas = Canvas(width=300, height=414)
     background_img = PhotoImage(file="background.png")
     canvas.create_image(150, 207, image=background_img)
-    quote_text = canvas.create_text(150, 207, text="Kanye Quote Goes HERE", width=250, font=("Arial", 30, "bold"), fill="white")
+    quote_text = canvas.create_text(150, 207, text="Kanye Quote Goes HERE", width=250, font=("Arial", 18, "bold"), fill="white")
     canvas.grid(row=0, column=0)
 
     # Button Setup.
