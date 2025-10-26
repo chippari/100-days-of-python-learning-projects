@@ -20,6 +20,10 @@ def main():
     # Raise an exception when there is an error on API Request.
     response.raise_for_status()
 
+    # Get Data from API Response.
+    data = response.json()
+    print(data)
+
 if __name__ == '__main__':
     main()
 
