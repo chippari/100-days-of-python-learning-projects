@@ -10,6 +10,7 @@
 # > Imports ------------------------------------------------------------------------------------------------------------
 
 from tkinter import *
+from quiz_brain import QuizBrain
 
 # > Constants / Configuration ------------------------------------------------------------------------------------------
 
@@ -18,7 +19,10 @@ THEME_COLOR = "#375362"
 # > Quiz Interface Class -----------------------------------------------------------------------------------------------
 
 class QuizInterface:
-    def __init__(self):
+    def __init__(self, quiz_brain: QuizBrain):
+        # Get Quiz Brain.
+        self.quiz = quiz_brain
+
         # Window Setup.
         self.window = Tk()
         self.window.title("Quiz App Project")
@@ -41,7 +45,7 @@ class QuizInterface:
         # Canvas Setup.
         self.canvas = Canvas(width=300, height=250, background="white")
         # Canvas Text.
-        self.question_text = self.canvas.create_text(150, 125, text="Hello", font=("Arial", 20, "italic"))
+        self.question_text = self.canvas.create_text(150, 125, width=280, text="Hello", font=("Arial", 20, "italic"))
         # Canvas Grid Position.
         self.canvas.grid(row=1, column=0, columnspan=2)
 
@@ -55,6 +59,13 @@ class QuizInterface:
         self.false_button = Button(image=self.false_button_img, activebackground=THEME_COLOR, bd=0, highlightthickness=0)
         self.false_button.grid(row=2, column=1)
 
+        # Get Next Question.
+        self.get_next_question()
+
         self.window.mainloop()
+
+    def get_next_question(self):
+        q_text = self.quiz.next_question()
+        self.canvas.itemconfig(self.question_text, text=q_text)
 
 # ----------------------------------------------------------------------------------------------------------------------
