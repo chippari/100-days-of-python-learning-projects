@@ -45,18 +45,18 @@ class QuizInterface:
         # Canvas Setup.
         self.canvas = Canvas(width=300, height=250, background="white")
         # Canvas Text.
-        self.question_text = self.canvas.create_text(150, 125, width=280, text="Hello", font=("Arial", 20, "italic"))
+        self.question_text = self.canvas.create_text(150, 125, width=280, text="Hello", font=("Arial", 18, "italic"))
         # Canvas Grid Position.
         self.canvas.grid(row=1, column=0, columnspan=2)
 
         # True Button Setup.
         self.true_button_img = PhotoImage(file="images/true.png")
-        self.true_button = Button(image=self.true_button_img, activebackground=THEME_COLOR, bd=0, highlightthickness=0)
+        self.true_button = Button(image=self.true_button_img, activebackground=THEME_COLOR, bd=0, highlightthickness=0, command=self.true_pressed)
         self.true_button.grid(row=2, column=0)
 
         # False Button Setup.
         self.false_button_img = PhotoImage(file="images/false.png")
-        self.false_button = Button(image=self.false_button_img, activebackground=THEME_COLOR, bd=0, highlightthickness=0)
+        self.false_button = Button(image=self.false_button_img, activebackground=THEME_COLOR, bd=0, highlightthickness=0, command=self.false_pressed)
         self.false_button.grid(row=2, column=1)
 
         # Get Next Question.
@@ -67,5 +67,13 @@ class QuizInterface:
     def get_next_question(self):
         q_text = self.quiz.next_question()
         self.canvas.itemconfig(self.question_text, text=q_text)
+
+    def true_pressed(self):
+        self.quiz.check_answer("true")
+        self.get_next_question()
+
+    def false_pressed(self):
+        self.quiz.check_answer("false")
+        self.get_next_question()
 
 # ----------------------------------------------------------------------------------------------------------------------
