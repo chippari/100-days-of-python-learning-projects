@@ -10,15 +10,22 @@
 # > Imports ------------------------------------------------------------------------------------------------------------
 
 import requests
+from twilio.rest import Client
 
 # > Constants / Configuration ------------------------------------------------------------------------------------------
 
-# To get API KEY go to https://openweathermap.org/
-API_KEY = ""
+# Open Weather Map API KEY Setup.
+API_KEY = "SET_YOUR_API_KEY"
+
+MY_LAT = "SET_YOUR_LAT"
+MY_LON = "SET_YOUR_LON"
 
 OWN_ENDPOINT = "https://api.openweathermap.org/data/2.5/forecast"
-MY_LAT = -21.4587581
-MY_LON = -54.3698517
+
+# Twilio Account Setup.
+account_sid = "SET_YOUR_SID"
+auth_token = "SET_YOUR_AUTH_TOKEN"
+client = Client(account_sid, auth_token)
 
 # > Main ---------------------------------------------------------------------------------------------------------------
 
@@ -40,19 +47,24 @@ def main():
     # Get Data from API Response.
     weather_data = response.json()
 
+    # Set a variable if it will rain.
+    will_rain = False
+
     for time in weather_data["list"]:
         # Get Weather Condition Codes.
         weather_code = time["weather"][0]["id"]
-        # Get Weather Condition.
-        weather_condition = time["weather"][0]["main"]
-        # Get Weather Hour.
-        weather_hour = time["dt_txt"].split(" ")[1].split(":")[0]
 
         if weather_code < 700:
-            print(f"Bring your umbrella! The weather condition is {weather_condition} at {weather_hour} hours.")
-        else:
-            print(f"You don't have to worry at {weather_hour} hours, because the weather condition is {weather_condition}!")
+            will_rain = True
 
+    if will_rain:
+        message = client.messages.create(
+            from_="TWILIO_NUMBER",
+            body="It's going to rain today. Remember to bring an umbrella!",
+            to="YOUR_NUMBER"
+        )
+
+        print(message.status)
 
 if __name__ == '__main__':
     main()

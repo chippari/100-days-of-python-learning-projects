@@ -13,10 +13,13 @@ import requests
 
 # > Constants / Configuration ------------------------------------------------------------------------------------------
 
+# Open Weather Map API KEY Setup.
+API_KEY = "SET_YOUR_API_KEY"
+
+MY_LAT = "SET_YOUR_LAT"
+MY_LON = "SET_YOUR_LON"
+
 OWN_ENDPOINT = "https://api.openweathermap.org/data/2.5/forecast"
-API_KEY = ""
-MY_LAT = -23.550520
-MY_LON = -46.633308
 
 # > Main ---------------------------------------------------------------------------------------------------------------
 
