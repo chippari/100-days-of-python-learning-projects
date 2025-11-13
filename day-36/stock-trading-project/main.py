@@ -35,7 +35,13 @@ of the coronavirus market crash.
 
 # > Imports ------------------------------------------------------------------------------------------------------------
 
+from datetime import date, timedelta
+import requests
+
 # > Constants / Configuration ------------------------------------------------------------------------------------------
+
+ALPHA_ENDPOINT = "https://www.alphavantage.co/query"
+ALPHA_API_KEY = ""
 
 STOCK = "TSLA"
 COMPANY_NAME = "Tesla Inc"
@@ -43,6 +49,27 @@ COMPANY_NAME = "Tesla Inc"
 # > Main ---------------------------------------------------------------------------------------------------------------
 
 def main():
+    # Alpha Vantage API Setup.
+    alpha_parameters = {
+        "function": "TIME_SERIES_DAILY",
+        "symbol": STOCK,
+        "apikey": ALPHA_API_KEY
+    }
+
+    alpha_response = requests.get(url=ALPHA_ENDPOINT, params=alpha_parameters)
+    alpha_response.raise_for_status()
+
+    data = alpha_response.json()
+    # print(data["Time Series (Daily)"])
+
+    # Set in a variable Yesterday and the Day Before.
+    today = date.today()
+    yesterday = today - timedelta(days=1)
+    day_before_yesterday = yesterday - timedelta(days=1)
+
+    print(today, yesterday, day_before_yesterday)
+
+
     pass
 
 if __name__ == '__main__':
