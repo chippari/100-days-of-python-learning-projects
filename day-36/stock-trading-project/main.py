@@ -42,17 +42,17 @@ import requests
 # > Constants / Configuration ------------------------------------------------------------------------------------------
 
 ALPHA_ENDPOINT = "https://www.alphavantage.co/query"
-ALPHA_API_KEY = ""
+ALPHA_API_KEY = "YOUR_API_KEY"
 
 NEWS_ENDPOINT = "https://newsapi.org/v2/everything"
-NEWS_API_KEY = ""
+NEWS_API_KEY = "YOUR_API_KEY"
 
 STOCK = "TSLA"
 COMPANY_NAME = "Tesla Inc"
 
 # Twilio Account Setup.
-account_sid = ""
-auth_token = ""
+account_sid = "YOUR_SIC"
+auth_token = "YOUR_AUTH_TOKEN"
 client = Client(account_sid, auth_token)
 
 # > Main ---------------------------------------------------------------------------------------------------------------
@@ -121,11 +121,12 @@ def main():
             for i, piece in enumerate(main_news)
         )}")
 
+        # ATTENTION: To send the complete message, you need a paid Twilio account; otherwise, divide it into individual messages.
         # Send SMS using Twilio with the message containing Stock Percentage Change and News Together.
         message = client.messages.create(
-            from_="",
-            body=f"TSLA: {'🔺' if stock_percentage_change > 0 else '🔻'}{abs(stock_percentage_change)}%\n",
-            to=""
+            from_="YOUR_TWILIO_NUMBER",
+            body=send_this,
+            to="YOUR_NUMBER"
         )
 
         print(message.status)
