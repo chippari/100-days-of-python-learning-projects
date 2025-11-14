@@ -60,17 +60,18 @@ def main():
     alpha_response.raise_for_status()
 
     data = alpha_response.json()
-    # print(data["Time Series (Daily)"])
 
-    # Set in a variable Yesterday and the Day Before.
-    today = date.today()
-    yesterday = today - timedelta(days=1)
-    day_before_yesterday = yesterday - timedelta(days=1)
+    # Get Yesterday and the Day Before Variables.
+    yesterday = str(date.today() - timedelta(days=1))
+    day_before = str(date.today() - timedelta(days=2))
 
-    print(today, yesterday, day_before_yesterday)
+    # Get Stock Price from Yesterday and Day Before.
+    stock_price_yst = float(data["Time Series (Daily)"][yesterday]["4. close"]) # 401
+    stock_price_dyb = float(data["Time Series (Daily)"][day_before]["4. close"]) # 430
 
-
-    pass
+    # If Stock Price increase/decreases by 5% between yesterday and the day before yesterday, get news.
+    stock_percentage_change = (stock_price_yst - stock_price_dyb) / stock_price_yst
+    print(stock_percentage_change)
 
 if __name__ == '__main__':
     main()
