@@ -13,10 +13,23 @@ import requests
 
 # > Constants / Configuration ------------------------------------------------------------------------------------------
 
+PIXELA_ENDPOINT = "https://pixe.la/v1/users"
+
 # > Main ---------------------------------------------------------------------------------------------------------------
 
 def main():
-    pass
+    # Pixela API Setup.
+    pixela_user_params = {
+        "token": "",
+        "username": "",
+        "agreeTermsOfService": "yes",
+        "notMinor": "yes",
+    }
+
+    pixela_user_response = requests.post(url=PIXELA_ENDPOINT, json=pixela_user_params)
+
+    print(pixela_user_response.text)
+
 
 if __name__ == '__main__':
     main()
