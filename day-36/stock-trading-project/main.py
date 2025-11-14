@@ -36,6 +36,7 @@ of the coronavirus market crash.
 # > Imports ------------------------------------------------------------------------------------------------------------
 
 from datetime import date, timedelta
+from twilio.rest import Client
 import requests
 
 # > Constants / Configuration ------------------------------------------------------------------------------------------
@@ -43,8 +44,16 @@ import requests
 ALPHA_ENDPOINT = "https://www.alphavantage.co/query"
 ALPHA_API_KEY = ""
 
+NEWS_ENDPOINT = "https://newsapi.org/v2/everything"
+NEWS_API_KEY = ""
+
 STOCK = "TSLA"
 COMPANY_NAME = "Tesla Inc"
+
+# Twilio Account Setup.
+account_sid = ""
+auth_token = ""
+client = Client(account_sid, auth_token)
 
 # > Main ---------------------------------------------------------------------------------------------------------------
 
@@ -59,19 +68,67 @@ def main():
     alpha_response = requests.get(url=ALPHA_ENDPOINT, params=alpha_parameters)
     alpha_response.raise_for_status()
 
-    data = alpha_response.json()
+    stock_data = alpha_response.json()
 
     # Get Yesterday and the Day Before Variables.
     yesterday = str(date.today() - timedelta(days=1))
     day_before = str(date.today() - timedelta(days=2))
 
-    # Get Stock Price from Yesterday and Day Before.
-    stock_price_yst = float(data["Time Series (Daily)"][yesterday]["4. close"]) # 401
-    stock_price_dyb = float(data["Time Series (Daily)"][day_before]["4. close"]) # 430
+    # Verify if you achieve your requests per day on your free account.
+    if "Information" in stock_data:
+        print("You achieve your 25 requests per day.")
+
+        # Set Values of Stock Price from Yesterday and Day Before for learning purposes.
+        stock_price_yst = 401
+        stock_price_dyb = 430
+    else:
+        # Get Stock Price from Yesterday and Day Before.
+        stock_price_yst = float(stock_data["Time Series (Daily)"][yesterday]["4. close"])
+        stock_price_dyb = float(stock_data["Time Series (Daily)"][day_before]["4. close"])
+
+    # Get Stock Price Percentage Change.
+    stock_percentage_change = round(((stock_price_yst - stock_price_dyb) / stock_price_yst) * 100)
 
     # If Stock Price increase/decreases by 5% between yesterday and the day before yesterday, get news.
-    stock_percentage_change = (stock_price_yst - stock_price_dyb) / stock_price_yst
-    print(stock_percentage_change)
+    if stock_percentage_change > 5 or stock_percentage_change < -5:
+        # News API Setup.
+        news_parameters = {
+            "q": COMPANY_NAME,
+            "from": day_before,
+            "sortBy": "popularity",
+            "apikey": NEWS_API_KEY
+        }
+
+        news_response = requests.get(url=NEWS_ENDPOINT, params=news_parameters)
+        news_response.raise_for_status()
+
+        news_data = news_response.json()
+
+        # Set the first 3 news in a list.
+        main_news = []
+        # Get the first 3 news pieces for the COMPANY_NAME.
+        for piece in range(3):
+            news_headline = news_data["articles"][piece]["title"]
+            news_description = news_data["articles"][piece]["description"]
+
+            main_news.append({"Headline": news_headline, "Brief": news_description})
+
+        send_this = (f"TSLA: {'🔺' if stock_percentage_change > 0 else '🔻'}{abs(stock_percentage_change)}%\n"
+            f"{''.join(
+            f'> News {i + 1}:\n'
+            f'Headline: {piece["Headline"]}\n'
+            f'Brief: {piece["Brief"]}\n'
+            for i, piece in enumerate(main_news)
+        )}")
+
+        # Send SMS using Twilio with the message containing Stock Percentage Change and News Together.
+        message = client.messages.create(
+            from_="",
+            body=f"TSLA: {'🔺' if stock_percentage_change > 0 else '🔻'}{abs(stock_percentage_change)}%\n",
+            to=""
+        )
+
+        print(message.status)
 
 if __name__ == '__main__':
     main()
