@@ -14,22 +14,41 @@ import requests
 # > Constants / Configuration ------------------------------------------------------------------------------------------
 
 PIXELA_ENDPOINT = "https://pixe.la/v1/users"
+USERNAME = ""
+PIXELA_TOKEN = ""
 
 # > Main ---------------------------------------------------------------------------------------------------------------
 
 def main():
-    # Pixela API Setup.
-    pixela_user_params = {
-        "token": "",
-        "username": "",
-        "agreeTermsOfService": "yes",
-        "notMinor": "yes",
+    # Create User using Pixela API.
+    # pixela_user_params = {
+    #     "token": "",
+    #     "username": "",
+    #     "agreeTermsOfService": "yes",
+    #     "notMinor": "yes",
+    # }
+    #
+    # pixela_user_response = requests.post(url=PIXELA_ENDPOINT, json=pixela_user_params)
+    # print(pixela_user_response.text)
+
+    # Create New Pixelation Graph using Pixela API.
+    graph_endpoint = f"{PIXELA_ENDPOINT}/{USERNAME}/graphs"
+
+    graph_headers = {
+        "X-USER-TOKEN": PIXELA_TOKEN
     }
 
-    pixela_user_response = requests.post(url=PIXELA_ENDPOINT, json=pixela_user_params)
+    graph_config = {
+        "id": "",
+        "name": "",
+        "unit": "",
+        "type": "",
+        "color": "",
+        "timezone": "",
+    }
 
-    print(pixela_user_response.text)
-
+    graph_response = requests.post(url=graph_endpoint, headers=graph_headers, json=graph_config)
+    print(graph_response.text)
 
 if __name__ == '__main__':
     main()
